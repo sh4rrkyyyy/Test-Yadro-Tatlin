@@ -1,8 +1,8 @@
 #include "file-tape.h"
-#include <cstdint>
 #include <stdexcept>
+
 FileTape::FileTape(const std::string &path, size_t max_size,
-                   const TapeConfig &cfg)
+                   const Config &cfg)
     : cfg_(cfg), max_size_(max_size) {
   file_.open(path, std::ios::binary);
   if (!file_.is_open()) {
@@ -10,16 +10,49 @@ FileTape::FileTape(const std::string &path, size_t max_size,
   }
 }
 
-FileTape::~FileTape() {
-  file_.close();
+FileTape::~FileTape() { file_.close(); }
+
+void FileTape::Read(int32_t &value) {
+  delay(cfg_.read_delay);
+  file_.seekg(pos_ * sizeof(int32_t), std::ios::beg);
+  file_.read(reinterpret_cast<char *>(&value), sizeof(value));
+  //++pos_;
 }
 
-bool FileTape::Read(int32_t &value) {
-  if (pos_ >= max_size_) {
-    return false;
+void FileTape::Write(int32_t value) {
+  delay(cfg_.write_delay);
+  file_.seekp(pos_ & sizeof(int32_t), std::ios::beg);
+  file_.write(reinterpret_cast<char *>(&value), sizeof(value));
+  //++pos_;
+}
+
+void FileTape::ShiftLeft() {
+  delay(cfg_.shift_delay);
+  if (pos_ < max_size_) {
+    ++pos_;
   }
-  delay(cfg_.read_delay);
-  file_.read(reinterpret_cast<char *>(&value), sizeof(value));
-  ++pos_;
-  
+}
+
+void FileTape::ShiftRight() {
+  delay(cfg_.shift_delay);
+  if (pos_ > 0) {
+    --pos_;
+  }
+}
+
+void FileTape::Rewind() {
+  delay(cfg_.rewind_delay);
+  pos_ = 0;
+}
+
+size_t FileTape::Size() {
+  //auto pos = file_.tellg();
+  file_.seekg(0, std::ios::end);
+  //file_.seekg(pos);
+  return file_.tellg();
+}
+
+
+void FileTape::delay(const std::chrono::milliseconds &time) {
+  std::this_thread::sleep_for(time);
 }

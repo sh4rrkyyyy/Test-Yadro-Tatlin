@@ -5,6 +5,9 @@
 class Tape {
 public:
   virtual ~Tape() = default;
-  virtual bool Read(int32_t &value) = 0;
-  virtual bool Write(int32_t value) = 0;
+  virtual void Read(int32_t &value) = 0;
+  virtual void Write(int32_t value) = 0;
+  virtual void ShiftLeft() = 0;
+  virtual void ShiftRight() = 0;
+  virtual void Rewind() = 0;
 };
