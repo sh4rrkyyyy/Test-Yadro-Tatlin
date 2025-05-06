@@ -1,7 +1,7 @@
 #include "sort.h"
 #include "file-tape.h"
 #include <vector>
-
+#include <iostream>
 void Merge(FileTape &ftape_read, FileTape &ftape_write, std::vector<int32_t> &data) {
   ftape_read.Rewind();
   ftape_write.Rewind();

@@ -8,8 +8,7 @@
 
 class FileTape : public Tape {
 public:
-  FileTape(const std::string &path, const Config &cfg);
-  FileTape(const std::string &path, size_t max_size, const Config &cfg);
+  FileTape(const std::string &path, const Config &cfg, bool help_tape = false);
   virtual ~FileTape() override;
   virtual void Read(int32_t &value) override;
   virtual void Write(int32_t value) override;
@@ -20,7 +19,6 @@ public:
 
 private:
   Config cfg_;
-  size_t max_size_;
   size_t pos_;
   std::fstream file_;
   void delay(const std::chrono::milliseconds &time);
