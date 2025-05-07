@@ -51,12 +51,11 @@ void FileTape::Rewind() {
 
 size_t FileTape::Size() {
   file_.clear();
-  // auto pos = file_.tellg();
   file_.seekg(0, std::ios::end);
-  // file_.seekg(pos);
   return file_.tellg() / sizeof(int32_t);
 }
 
 void FileTape::delay(const std::chrono::milliseconds &time) {
   std::this_thread::sleep_for(time);
 }
+

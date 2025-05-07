@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
   std::optional<FileTape> in_tape, out_tape;
   try {
     in_tape.emplace(argv[1], *cfg);
-    out_tape.emplace(argv[2], *cfg);
+    out_tape.emplace(argv[2], *cfg, 1);
   } catch (std::exception &e) {
     std::cerr << e.what() << std::endl;
     exit(EXIT_FAILURE);
@@ -72,6 +72,7 @@ int main(int argc, char **argv) {
       merged_tape = 0;
     }
   }
+  data.clear();
   for (size_t j = 0; j < in_tape->Size() % MAXSIZE; ++j) {
     int32_t value;
     in_tape->Read(value);
