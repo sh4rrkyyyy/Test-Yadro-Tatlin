@@ -19,7 +19,7 @@ public:
 
 private:
   Config cfg_;
-  size_t pos_;
+  size_t pos_ = 0;
   std::fstream file_;
   void delay(const std::chrono::milliseconds &time);
 };
