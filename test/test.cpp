@@ -127,3 +127,13 @@ TEST(Sort, StressTest) {
     ASSERT_EQ(value, data[i]);
   }
 }
+
+TEST(Sort, TestEmpty) {
+  FileTape in_tape("empty.bin", Config{}, true);
+  FileTape out_tape("empty_out.bin", Config{}, true);
+  FileTape tape0("tape0.bin", Config{}, true);
+  FileTape tape1("tape1.bin", Config{}, true);
+  Sort(in_tape, out_tape, tape0, tape1);
+  ASSERT_EQ(out_tape.Size(), 0);
+}
+
