@@ -1,9 +1,10 @@
-#pragma once 
+#pragma once
 
 #include <chrono>
 #include <fstream>
 
 struct Config {
+  Config() = default;
   Config(std::ifstream &in);
   std::chrono::milliseconds read_delay;
   std::chrono::milliseconds write_delay;
